@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "../css/SidebarPaises.css"; 
+import '../css/SidebarPaises.css'
 
 const SidebarPaises = () => {
   const [paises, setPaises] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const paisesG20 = [
     "South Africa",
@@ -30,21 +29,25 @@ const SidebarPaises = () => {
 
   useEffect(() => {
     const fetchPaises = async () => {
+      const cachedData = localStorage.getItem("g20Countries");
+      if (cachedData) {
+        setPaises(JSON.parse(cachedData));
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
-        if (!response.ok) {
-          throw new Error("Erro ao buscar dados");
-        }
         const data = await response.json();
 
-        
         const filteredCountries = data
           .filter((country) => paisesG20.includes(country.name.common))
           .sort((a, b) => a.name.common.localeCompare(b.name.common));
 
         setPaises(filteredCountries);
-      } catch (err) {
-        setError(err.message);
+        localStorage.setItem("g20Countries", JSON.stringify(filteredCountries));
+      } catch (error) {
+        console.error("Erro ao buscar os países:", error);
       } finally {
         setLoading(false);
       }
@@ -53,36 +56,21 @@ const SidebarPaises = () => {
     fetchPaises();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="sidebar">
-        <h2>Países do G20</h2>
-        <p>Carregando...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="sidebar">
-        <h2>Países do G20</h2>
-        <p>Erro ao carregar os países: {error}</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="sidebar">
-      <h2>Países do G20</h2>
-      <ul>
-        {paises.map((country) => (
-          <li key={country.cca3 || country.name.common}>
-            {country.name.common || "Desconhecido"}
-          </li>
-        ))}
-      </ul>
+    <div className="sidebar-container">
+      <h2 className="sidebar-title">Países do G20</h2>
+      {loading ? (
+        <p className="loading">Carregando...</p>
+      ) : (
+        <ul className="countries-list">
+          {paises.map((country) => (
+            <li key={country.cca3} className="country-item">{country.name.common}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
 
 export default SidebarPaises;
+

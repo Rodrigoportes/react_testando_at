@@ -1,22 +1,76 @@
-aside {
-    width: 300px;
-    padding: 1rem;
-    background-color: #f0f0f0;
-    border-right: 1px solid #ccc;
+/* SidebarPaises.css */
+
+/* Container da Sidebar */
+.sidebar-container {
+  padding: 20px;
+  width: 250px;
+  background-color: #2d3a3a;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  list-style: none;
+}
+
+/* Título da Sidebar */
+.sidebar-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #f2f2f2;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Estilo para o texto de carregamento */
+.loading {
+  text-align: center;
+  color: #f2f2f2;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Lista de países */
+.countries-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+/* Item de cada país */
+.country-item {
+  padding: 10px;
+  margin-bottom: 8px;
+  background-color: #3a4d4d;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover para destacar o item ao passar o mouse */
+.country-item:hover {
+  background-color: #4b6363;
+}
+
+/* Estilo responsivo */
+@media (max-width: 768px) {
+  .sidebar-container {
+    width: 100%;
+    padding: 15px;
+    list-style: none;
   }
-  
-  h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+
+  .sidebar-title {
+    font-size: 1.2rem;
   }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
+
+  .country-item {
+    font-size: 0.9rem;
+    padding: 8px;
   }
-  
-  li {
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-  }
-  
+}
